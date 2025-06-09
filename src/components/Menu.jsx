@@ -1,8 +1,13 @@
 import { useState } from "react";
 import Item from "./Item";
 import OrderModal from "./OrderModal";
+import { useSelector } from "react-redux";
 
-function Menu({ menu, cart, setCart }) {
+function Menu() {
+  const menu = useSelector((state) => state.menuReducer);
+
+  console.log("메뉴 데이터", menu);
+
   const [modalOn, setModalOn] = useState(false);
   const [modalMenu, setModalMenu] = useState(null);
   if (!menu)
@@ -13,10 +18,10 @@ function Menu({ menu, cart, setCart }) {
       </div>
     );
 
-  const categorys = Object.keys(menu);
+  const categories = Object.keys(menu);
   return (
     <>
-      {categorys.map((category) => {
+      {categories.map((category) => {
         return (
           <section key={category}>
             <h2>{category}</h2>
@@ -36,12 +41,7 @@ function Menu({ menu, cart, setCart }) {
         );
       })}
       {modalOn ? (
-        <OrderModal
-          modalMenu={modalMenu}
-          setModalOn={setModalOn}
-          cart={cart}
-          setCart={setCart}
-        />
+        <OrderModal modalMenu={modalMenu} setModalOn={setModalOn} />
       ) : null}
     </>
   );
